@@ -35,12 +35,14 @@ def rotate(ID, PIN_STEP, PIN_DIR, DIRECTION, STEP_NUMBER, SPEED):
     else:
         GPIO.output(PIN_DIR, GPIO.LOW)
     # Avancer du nombre de pas
-    for x in range(pas):
+    for x in range(STEP_NUMBER):
         print('MOTEUR: {ID} - direction: {DIRECTION}'.format(ID = ID, DIRECTION = DIRECTION)) 
         GPIO.output(PIN_STEP, GPIO.HIGH)
         sleep(SPEED)
         GPIO.output(PIN_STEP, GPIO.LOW)
         sleep(SPEED)
+
+    sleep(1)
 
 while True:
 
