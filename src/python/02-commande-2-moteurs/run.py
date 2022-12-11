@@ -31,7 +31,7 @@ def rotate(ID, PIN_STEP, PIN_DIR, DIRECTION, STEP_NUMBER, STEP_PER_TOUR, SPEED):
     # ID : identifiant du device/moteur
     # PIN_STEP : pinoche de commande de pas du moteur
     # PIN_DIR : pinoche de commande de direction
-    # DIRECTION : CW pour sens horaire, ACW pour sens antihoraire
+    # DIRECTION : CW pour sens horaire, CCW pour sens antihoraire
     # STEP_NUMBER : nombre de pas a effectuer
     # STEP_PER_TOUR : nombre de pas par tour
     # SPEED : vitesse de rotation tour/s
@@ -46,7 +46,7 @@ def rotate(ID, PIN_STEP, PIN_DIR, DIRECTION, STEP_NUMBER, STEP_PER_TOUR, SPEED):
         GPIO.output(PIN_DIR, GPIO.LOW)
 
     # Avancer du nombre de pas
-    print('{"device": "{ID}", "movement": "{MOVEMENT}", "direction": "{DIRECTION}", "distance": "{DISTANCE}", "speed": "{SPEED}"}'.format(ID = ID, DIRECTION = DIRECTION, MOVEMENT = MOVEMENT, DISTANCE = STEP_NUMBER, SPEED = SPEED)) 
+    print('"device": "{ID}", "movement": "{MOVEMENT}", "direction": "{DIRECTION}", "distance": "{DISTANCE}", "speed": "{SPEED}"'.format(ID = ID, DIRECTION = DIRECTION, MOVEMENT = MOVEMENT, DISTANCE = STEP_NUMBER, SPEED = SPEED)) 
     for x in range(STEP_NUMBER):
         GPIO.output(PIN_STEP, GPIO.HIGH)
         sleep(TIME_TO_SLEEP)
@@ -60,6 +60,6 @@ STEP_NUMBER = 1600                     # Nombre de pas à parcourir 3200 = 1 tou
 
 while True:
     rotate(M1_ID, M1_PIN_STEP, M1_PIN_DIR, "CW", STEP_NUMBER, M1_STEP_PER_TOUR, M1_SPEED)
-    rotate(M1_ID, M1_PIN_STEP, M1_PIN_DIR, "ACW", STEP_NUMBER, M1_STEP_PER_TOUR, M1_SPEED)
+    rotate(M1_ID, M1_PIN_STEP, M1_PIN_DIR, "CCW", STEP_NUMBER, M1_STEP_PER_TOUR, M1_SPEED)
     rotate(M2_ID, M2_PIN_STEP, M2_PIN_DIR, "CW", STEP_NUMBER, M2_STEP_PER_TOUR, M2_SPEED)
-    rotate(M2_ID, M2_PIN_STEP, M2_PIN_DIR, "ACW", STEP_NUMBER, M2_STEP_PER_TOUR, M2_SPEED)
+    rotate(M2_ID, M2_PIN_STEP, M2_PIN_DIR, "CCW", STEP_NUMBER, M2_STEP_PER_TOUR, M2_SPEED)
