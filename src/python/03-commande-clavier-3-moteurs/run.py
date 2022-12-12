@@ -2,13 +2,17 @@
 # -*- coding: utf-8 -*-
 # Copyright : 2022 - Benoit Debaenst
 
-# Ce programme permet de tester la commande de 2 moteurs pas à pas.
-# Les moteurs rotatent alternativement en faisant un demi tour dans un sens puis dans l'autre.
+# Ce programme permet de tester la commande de 3 moteurs pas à pas.
+# Tant que les touches de direction sont appuyées, les moteurs tournent.
+# Touches associées :
+# - moteur 1 : haut / bas
+# - moteur 2 : droite / gauche
+# - moteur 3 : page haut / page bas
 
 import tk as tkinter
 from pynput import keyboard    # Bibliothèque de gestion clavier
 from time import sleep         # Importer la bibliothèque de gestion du temps 
-# import RPi.GPIO as GPIO        # Importer la bibliothèque de gestion des GPIO
+import RPi.GPIO as GPIO        # Importer la bibliothèque de gestion des GPIO
 
 M1_ID = "moteur-01"
 M1_PIN_STEP = 14                      # La commande de pas du moteur 1 est reliée au GPIO 14
@@ -41,20 +45,19 @@ def rotate(ID, PIN_STEP, PIN_DIR, DIRECTION, STEP_NUMBER, STEP_PER_TOUR, SPEED):
     TIME_TO_SLEEP = SPEED/STEP_PER_TOUR
 
     # Sens de rotation
-    # if (DIRECTION == "CW"):
-    #     GPIO.output(PIN_DIR, GPIO.HIGH)
-    # else:
-    #     GPIO.output(PIN_DIR, GPIO.LOW)
+    if (DIRECTION == "CW"):
+        GPIO.output(PIN_DIR, GPIO.HIGH)
+    else:
+        GPIO.output(PIN_DIR, GPIO.LOW)
 
     # Avancer du nombre de pas
     print('"device": "{ID}", "movement": "{MOVEMENT}", "direction": "{DIRECTION}", "distance": "{DISTANCE}", "speed": "{SPEED}"'.format(ID = ID, DIRECTION = DIRECTION, MOVEMENT = MOVEMENT, DISTANCE = STEP_NUMBER, SPEED = SPEED)) 
-    # for x in range(STEP_NUMBER):
-    #     GPIO.output(PIN_STEP, GPIO.HIGH)
-    #     sleep(TIME_TO_SLEEP)
-    #     GPIO.output(PIN_STEP, GPIO.LOW)
-    #     sleep(TIME_TO_SLEEP)
+    for x in range(STEP_NUMBER):
+        GPIO.output(PIN_STEP, GPIO.HIGH)
+        sleep(TIME_TO_SLEEP)
+        GPIO.output(PIN_STEP, GPIO.LOW)
+        sleep(TIME_TO_SLEEP)
 
-    sleep(1)
 
 # Fonction appelée quand une touche est appuyée
 def push(key):
@@ -91,12 +94,12 @@ def release(key):
     if key == keyboard.Key.esc:
         # Stop listener
         print("Sortie du programme")
-        # GPIO.cleanup()
+        GPIO.cleanup()
         return False
 
 
-# Nombre de pas de rotation pour le test
-STEP_NUMBER = 1600                     # Nombre de pas à parcourir 3200 = 1 tour, 1600 = 1/2 tour
+# Nombre de pas de rotation 
+STEP_NUMBER = 1                     # Nombre de pas à parcourir 3200 = 1 tour, 1600 = 1/2 tour
 
 # Le listener collecte les événements et appelle les fonctions en callback
 with keyboard.Listener(
