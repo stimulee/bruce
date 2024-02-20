@@ -25,7 +25,7 @@ try:
 	#Card2Motor2.SetMicroStep('softward','fullstep')
 	
 	# ROTATION DE LA PINCE
-	print "Carte 1 - moteur 2 : rotation pince"
+	print("Carte 1 - moteur 2 : rotation pince")
 	Card1Motor2.TurnStep(Dir='forward', steps=400, stepdelay = 0.005)
 	time.sleep(0.5)
 	Card1Motor2.TurnStep(Dir='backward', steps=400, stepdelay = 0.005)
@@ -43,14 +43,14 @@ try:
 	# '1/32step': A cycle = 200 * 32 steps
 	"""
 	# ROTATION DU BRAS
-	print "Carte 1 - moteur 1 : bras"
+	print ("Carte 1 - moteur 1 : bras")
 	Card1Motor1.TurnStep(Dir='forward', steps=400, stepdelay = 0.005)
 	time.sleep(0.5)
 	Card1Motor1.TurnStep(Dir='backward', steps=400, stepdelay = 0.005)
 	time.sleep(0.5)
 
 	###
-	print "Carte 2 - moteur 1 : rotation"
+	print ("Carte 2 - moteur 1 : rotation")
 	Card2Motor1.TurnStep(Dir='forward', steps=400, stepdelay = 0.005)
 	time.sleep(0.5)
 	Card2Motor1.TurnStep(Dir='backward', steps=400, stepdelay = 0.005)
@@ -66,13 +66,13 @@ try:
 	# '1/16step': A cycle = 2048 * 16 steps
 	# '1/32step': A cycle = 2048 * 32 steps
 	"""
-	print "Carte 2 - moteur 2 : avant-bras"
+	print ("Carte 2 - moteur 2 : avant-bras")
 	Card2Motor2.TurnStep(Dir='forward', steps=400, stepdelay = 0.005)
 	time.sleep(0.5)
 	Card2Motor2.TurnStep(Dir='backward', steps=400, stepdelay = 0.005)
 	time.sleep(0.5)
 
-	print "Servo : action pince"
+	print ("Servo : action pince")
 	servo = Servo(18)
 	servo.min()
 	sleep(1)
@@ -91,7 +91,7 @@ try:
     
 except:
 	# GPIO.cleanup()
-	print "\nMotor stop"
+	print ("\nMotor stop")
 	Card1Motor1.Stop()
 	Card2Motor1.Stop()
 	Card2Motor2.Stop()
