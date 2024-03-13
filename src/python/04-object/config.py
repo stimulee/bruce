@@ -26,6 +26,10 @@ poignet_dir_pin=24
 poignet_step_pin=18
 poignet_enable_pin=4
 poignet_mode_pins=(21, 22, 27)
+poignet2_bob1_pin1=24
+poignet2_bob1_pin2=18
+poignet2_bob2_pin1=4
+poignet2_bob2_pin2=(21, 22, 27)
 
 # pince
 pince_cmd_pin=18

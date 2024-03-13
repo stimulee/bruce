@@ -12,6 +12,10 @@ import logging
 # from RpiMotorLib import RpiMotorLib
 # from gpiozero import Servo
 
+# pour moteur 28BYJ
+import RPi.GPIO as GPIO
+from RpiMotorLib import RpiMotorLib
+
 class MoteurPaP():
     
     def __init__(self, name, dir_pin=13, step_pin=19, enable_pin=12, mode_pins=(16, 17, 20)) -> None:
@@ -54,7 +58,20 @@ class MoteurPaP():
     def Stop(self):
         print("Stop")
         
-    
+class Moteur_28BYJ(RpiMotorLib.BYJMotor):
+    def __init__(self, name, bob1_pin1=18, bob1_pin2=23, bob2_pin1=24, bob2_pin2=25) -> None:
+        self.GpioPins = [bob1_pin1, bob1_pin2, bob2_pin1, bob2_pin2]
+
+        # Declare an named instance of class pass a name and motor type
+        mymotortest = RpiMotorLib.BYJMotor("MyMotorOne", "28BYJ")
+
+    def TurnStep(self, Dir='forward', steps=400, stepdelay = 0.005):
+        print("Tourne : "+str(Dir)+" "+str(steps)+" "+str(stepdelay))
+        self.motor_run(self.GpioPins , .01, 100, False, False, "half", .05)
+        pass
+        # call the function , pass the parameters
+
+
 # class ServoMoteur(Servo):
 class ServoMoteur():
     
@@ -169,6 +186,11 @@ class Poignet(MoteurPaP):
         logging.info("{'name': '"+self.name+"', 'action': 'stop'}")   
         self.rotation('STOP', 0)
 
+class Poignet2(Moteur_28BYJ):
+    def __init__(self, name) -> None:
+        super().__init__(name, poignet2_bob1_pin1, poignet2_bob1_pin2, poignet2_bob2_pin1, poignet2_bob2_pin2)
+        # mymotortest = Moteur_28BYJ.BYJMotor("MyMotorOne", "28BYJ")
+
 class Pince(ServoMoteur):
     
     def __init__(self, name) -> None:
@@ -210,5 +232,6 @@ class Bras():
         self.epaule = Epaule(name+'-epaule')
         self.coude = Coude(name+'-coude')
         self.poignet = Poignet(name+'-poignet')
+        self.poignet2 = Poignet2.BYJMotor(name+'-poignet', "28BYJ")
         self.pince = Pince(name+'-pince')
         self.base = Base(name+'-base')
