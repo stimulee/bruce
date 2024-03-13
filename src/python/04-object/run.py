@@ -19,15 +19,18 @@ def main():
     # bras.epaule.monter()
     # bras.epaule.descendre()
     
-    bras.coude.rotation('CW',45)
-    bras.coude.rotation('CC',45)
+    # bras.coude.rotation('CW',45)
+    # bras.coude.rotation('CC',45)
     
-    bras.coude.plier()
-    bras.coude.deplier()
+    # bras.coude.plier()
+    # bras.coude.deplier()
     
     # bras.poignet.plier()
     # bras.poignet.deplier()
-    
+
+    bras.poignet2.plier()
+    bras.poignet2.deplier()
+
     # bras.pince.ouvrir()
     # bras.pince.fermer()
     

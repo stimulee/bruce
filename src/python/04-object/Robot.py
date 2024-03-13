@@ -61,15 +61,20 @@ class MoteurPaP():
 class Moteur_28BYJ(RpiMotorLib.BYJMotor):
     def __init__(self, name, bob1_pin1=18, bob1_pin2=23, bob2_pin1=24, bob2_pin2=25) -> None:
         self.GpioPins = [bob1_pin1, bob1_pin2, bob2_pin1, bob2_pin2]
+        self.name = name
 
         # Declare an named instance of class pass a name and motor type
-        mymotortest = RpiMotorLib.BYJMotor("MyMotorOne", "28BYJ")
+        mymotortest = RpiMotorLib.BYJMotor(self.name, "28BYJ")
 
     def TurnStep(self, Dir='forward', steps=400, stepdelay = 0.005):
+        if Dir == 'forward':
+            cc = False
+        else:
+            cc = True
+        print(self.GpioPins)
         print("Tourne : "+str(Dir)+" "+str(steps)+" "+str(stepdelay))
-        self.motor_run(self.GpioPins , .01, 100, False, False, "half", .05)
+        self.motor_run(self.GpioPins , stepdelay, steps, cc, False, "half", .05)
         pass
-        # call the function , pass the parameters
 
 
 # class ServoMoteur(Servo):
@@ -191,6 +196,21 @@ class Poignet2(Moteur_28BYJ):
         super().__init__(name, poignet2_bob1_pin1, poignet2_bob1_pin2, poignet2_bob2_pin1, poignet2_bob2_pin2)
         # mymotortest = Moteur_28BYJ.BYJMotor("MyMotorOne", "28BYJ")
 
+    def plier(self):
+        logging.info("{'name': '"+self.name+"', 'action': 'plier'}") 
+        # 130 steps = 90°  
+        self.TurnStep(Dir='forward', steps=130, stepdelay=0.001)
+        # self.stop()
+    
+    def deplier(self):
+        logging.info("{'name': '"+self.name+"', 'action': 'deplier'}")   
+        self.TurnStep(Dir='backward', steps=130, stepdelay=0.001)
+        # self.stop()
+
+    def stop(self):
+        logging.info("{'name': '"+self.name+"', 'action': 'stop'}")   
+        self.rotation('STOP', 0)
+
 class Pince(ServoMoteur):
     
     def __init__(self, name) -> None:
@@ -232,6 +252,6 @@ class Bras():
         self.epaule = Epaule(name+'-epaule')
         self.coude = Coude(name+'-coude')
         self.poignet = Poignet(name+'-poignet')
-        self.poignet2 = Poignet2.BYJMotor(name+'-poignet', "28BYJ")
+        self.poignet2 = Poignet2(name+'-poignet2')
         self.pince = Pince(name+'-pince')
         self.base = Base(name+'-base')
